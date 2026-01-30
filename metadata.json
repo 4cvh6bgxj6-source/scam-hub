@@ -1,0 +1,5 @@
+{
+  "name": "Brainrot Trading Hub & Anti-Scam",
+  "description": "A trading hub interface for Brainrot items with a built-in anti-scam reporting system via Discord Webhooks.",
+  "requestFramePermissions": []
+}
