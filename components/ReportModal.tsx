@@ -109,66 +109,66 @@ const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language,
       <div className={`bg-slate-900 border ${isScripterReport ? 'border-red-600' : 'border-slate-700'} rounded-2xl w-full max-w-lg shadow-2xl flex flex-col max-h-[90vh]`}>
         
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-slate-800">
+        <div className="flex items-center justify-between p-4 md:p-6 border-b border-slate-800 shrink-0">
           <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-full ${isScripterReport ? 'bg-black' : 'bg-red-900/30'} flex items-center justify-center`}>
+            <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full ${isScripterReport ? 'bg-black' : 'bg-red-900/30'} flex items-center justify-center`}>
               {isScripterReport ? (
-                 <Skull className="text-red-500 w-5 h-5" />
+                 <Skull className="text-red-500 w-4 h-4 md:w-5 md:h-5" />
               ) : (
-                 <AlertTriangle className="text-red-500 w-5 h-5" />
+                 <AlertTriangle className="text-red-500 w-4 h-4 md:w-5 md:h-5" />
               )}
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white">
+              <h2 className="text-lg md:text-xl font-bold text-white leading-tight">
                 {isScripterReport ? t.titleScripter : t.title}
               </h2>
-              <p className="text-xs text-slate-400">{t.team}</p>
+              <p className="text-[10px] md:text-xs text-slate-400">{t.team}</p>
             </div>
           </div>
-          <button onClick={onClose} className="text-slate-500 hover:text-white transition-colors">
+          <button onClick={onClose} className="text-slate-500 hover:text-white transition-colors p-1">
             <X className="w-6 h-6" />
           </button>
         </div>
 
         {/* Form Body - Scrollable */}
-        <div className="p-6 overflow-y-auto custom-scrollbar">
+        <div className="p-4 md:p-6 overflow-y-auto custom-scrollbar">
           {error && (
-            <div className="mb-4 p-3 bg-red-900/20 border border-red-800 rounded-lg text-red-200 text-sm flex items-center gap-2 animate-pulse">
-              <AlertTriangle className="w-4 h-4" />
+            <div className="mb-4 p-3 bg-red-900/20 border border-red-800 rounded-lg text-red-200 text-xs md:text-sm flex items-center gap-2 animate-pulse">
+              <AlertTriangle className="w-4 h-4 shrink-0" />
               {error}
             </div>
           )}
 
-          <form id="scam-form" onSubmit={handleSubmit} className="space-y-5">
+          <form id="scam-form" onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
             
-            {/* Reporter Info Row */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-300">{t.reporter}</label>
+            {/* Reporter Info Row - Stacks on mobile */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <label className="text-xs md:text-sm font-medium text-slate-300">{t.reporter}</label>
                 <input
                   type="text"
                   name="reporterName"
                   value={formData.reporterName}
                   onChange={handleChange}
                   placeholder="Username"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder:text-slate-600"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder:text-slate-600"
                 />
               </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-300">{t.date}</label>
+              <div className="space-y-1.5">
+                <label className="text-xs md:text-sm font-medium text-slate-300">{t.date}</label>
                 <input
                   type="date"
                   name="scamDate"
                   value={formData.scamDate}
                   onChange={handleChange}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-purple-500 transition-all [color-scheme:dark]"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-purple-500 transition-all [color-scheme:dark]"
                 />
               </div>
             </div>
 
             {/* Discord Username (Required) */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-indigo-400 flex items-center justify-between">
+            <div className="space-y-1.5">
+              <label className="text-xs md:text-sm font-medium text-indigo-400 flex items-center justify-between">
                 <span className="flex items-center gap-1">
                    <MessageSquare className="w-3.5 h-3.5" /> {t.discordLabel} <span className="text-red-500">*</span>
                 </span>
@@ -180,14 +180,14 @@ const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language,
                 onChange={handleChange}
                 placeholder="es. user#1234"
                 required
-                className="w-full bg-indigo-950/30 border border-indigo-500/30 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all placeholder:text-slate-600"
+                className="w-full bg-indigo-950/30 border border-indigo-500/30 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all placeholder:text-slate-600"
               />
-              <p className="text-xs text-indigo-300/70 italic">{t.discordHint}</p>
+              <p className="text-[10px] text-indigo-300/70 italic">{t.discordHint}</p>
             </div>
 
             {/* Scammer Info */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-red-400 flex items-center gap-1">
+            <div className="space-y-1.5">
+              <label className="text-xs md:text-sm font-medium text-red-400 flex items-center gap-1">
                 {t.scammer} <span className="text-red-500">*</span>
               </label>
               <input
@@ -197,14 +197,14 @@ const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language,
                 onChange={handleChange}
                 placeholder={t.scammerPlaceholder}
                 required
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-slate-600"
+                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-slate-600"
               />
             </div>
 
             {/* Scripter Specific Field */}
             {isScripterReport && (
-              <div className="space-y-2 animate-in fade-in slide-in-from-top-2">
-                <label className="text-sm font-medium text-purple-400 flex items-center gap-1">
+              <div className="space-y-1.5 animate-in fade-in slide-in-from-top-2">
+                <label className="text-xs md:text-sm font-medium text-purple-400 flex items-center gap-1">
                   {t.scriptName}
                 </label>
                 <input
@@ -213,14 +213,14 @@ const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language,
                   value={formData.scripterName}
                   onChange={handleChange}
                   placeholder={t.scriptPlaceholder}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder:text-slate-600"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder:text-slate-600"
                 />
               </div>
             )}
 
             {/* Description */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-300">{t.desc} <span className="text-red-500">*</span></label>
+            <div className="space-y-1.5">
+              <label className="text-xs md:text-sm font-medium text-slate-300">{t.desc} <span className="text-red-500">*</span></label>
               <textarea
                 name="description"
                 value={formData.description}
@@ -228,18 +228,18 @@ const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language,
                 rows={3}
                 placeholder={t.descPlaceholder}
                 required
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder:text-slate-600 resize-none"
+                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder:text-slate-600 resize-none"
               />
             </div>
 
             {/* Video Proof Section - File Only */}
-            <div className="space-y-3 pt-2">
-              <label className="text-sm font-bold text-white flex items-center justify-between">
+            <div className="space-y-2 pt-2">
+              <label className="text-xs md:text-sm font-bold text-white flex items-center justify-between">
                 <span className="flex items-center gap-2">
                   <FileVideo className="w-4 h-4 text-purple-400" />
                   {t.proof} <span className="text-red-500">*</span>
                 </span>
-                <span className="text-xs font-normal text-slate-400 uppercase tracking-wide">{t.required}</span>
+                <span className="text-[10px] font-normal text-slate-400 uppercase tracking-wide">{t.required}</span>
               </label>
               
               <div className="flex flex-col gap-3">
@@ -247,13 +247,13 @@ const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language,
                 {!formData.proofFile ? (
                   <div 
                     onClick={() => fileInputRef.current?.click()}
-                    className="cursor-pointer bg-slate-950/50 border border-dashed border-slate-700 hover:border-purple-500 hover:bg-slate-900 transition-all rounded-xl p-8 flex flex-col items-center justify-center text-center group"
+                    className="cursor-pointer bg-slate-950/50 border border-dashed border-slate-700 hover:border-purple-500 hover:bg-slate-900 transition-all rounded-xl p-6 md:p-8 flex flex-col items-center justify-center text-center group active:bg-slate-800"
                   >
-                    <div className="w-14 h-14 rounded-full bg-slate-800 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
-                      <Upload className="w-7 h-7 text-slate-400 group-hover:text-purple-400" />
+                    <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-lg">
+                      <Upload className="w-6 h-6 text-slate-400 group-hover:text-purple-400" />
                     </div>
-                    <p className="text-base font-bold text-slate-200">{t.uploadTitle}</p>
-                    <p className="text-xs text-slate-500 mt-2">{t.uploadDesc}</p>
+                    <p className="text-sm md:text-base font-bold text-slate-200">{t.uploadTitle}</p>
+                    <p className="text-[10px] md:text-xs text-slate-500 mt-1">{t.uploadDesc}</p>
                     <input 
                       type="file" 
                       ref={fileInputRef}
@@ -263,22 +263,22 @@ const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language,
                     />
                   </div>
                 ) : (
-                  <div className="bg-purple-900/20 border border-purple-500/30 rounded-xl p-4 flex items-center justify-between animate-in fade-in zoom-in duration-200">
+                  <div className="bg-purple-900/20 border border-purple-500/30 rounded-xl p-3 flex items-center justify-between animate-in fade-in zoom-in duration-200">
                     <div className="flex items-center gap-3 overflow-hidden">
-                      <div className="w-12 h-12 rounded-lg bg-purple-900/50 flex items-center justify-center shrink-0 border border-purple-500/20">
-                        <FileVideo className="w-6 h-6 text-purple-400" />
+                      <div className="w-10 h-10 rounded-lg bg-purple-900/50 flex items-center justify-center shrink-0 border border-purple-500/20">
+                        <FileVideo className="w-5 h-5 text-purple-400" />
                       </div>
                       <div className="flex flex-col min-w-0">
-                        <span className="text-sm font-bold text-white truncate">{formData.proofFile.name}</span>
-                        <span className="text-xs text-slate-400">{(formData.proofFile.size / (1024 * 1024)).toFixed(2)} MB • {t.ready}</span>
+                        <span className="text-xs md:text-sm font-bold text-white truncate">{formData.proofFile.name}</span>
+                        <span className="text-[10px] text-slate-400">{(formData.proofFile.size / (1024 * 1024)).toFixed(2)} MB • {t.ready}</span>
                       </div>
                     </div>
                     <button 
                       type="button"
                       onClick={removeFile}
-                      className="p-3 hover:bg-red-500/20 rounded-xl text-slate-400 hover:text-red-400 transition-colors"
+                      className="p-2 hover:bg-red-500/20 rounded-lg text-slate-400 hover:text-red-400 transition-colors"
                     >
-                      <Trash2 className="w-5 h-5" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
                 )}
@@ -289,21 +289,21 @@ const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language,
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-slate-800 bg-slate-900/50 rounded-b-2xl">
+        <div className="p-4 md:p-6 border-t border-slate-800 bg-slate-900/50 rounded-b-2xl shrink-0">
           <button
             type="submit"
             form="scam-form"
             disabled={loading}
-            className={`w-full bg-gradient-to-r ${isScripterReport ? 'from-black to-red-900 border border-red-800' : 'from-red-600 to-red-700'} hover:opacity-90 text-white font-bold py-4 px-4 rounded-xl shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed text-lg`}
+            className={`w-full bg-gradient-to-r ${isScripterReport ? 'from-black to-red-900 border border-red-800' : 'from-red-600 to-red-700'} hover:opacity-90 text-white font-bold py-3 md:py-4 px-4 rounded-xl shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed text-base md:text-lg`}
           >
             {loading ? (
               <>
-                <Loader2 className="w-6 h-6 animate-spin" />
+                <Loader2 className="w-5 h-5 md:w-6 md:h-6 animate-spin" />
                 {t.uploading}
               </>
             ) : (
               <>
-                {isScripterReport ? <Skull className="w-6 h-6" /> : <ShieldCheck className="w-6 h-6" />}
+                {isScripterReport ? <Skull className="w-5 h-5 md:w-6 md:h-6" /> : <ShieldCheck className="w-5 h-5 md:w-6 md:h-6" />}
                 {t.submit}
               </>
             )}

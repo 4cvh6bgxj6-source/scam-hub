@@ -14,7 +14,7 @@ export const sendScamReport = async (report: ScamReport): Promise<boolean> => {
   // Determine what to show in the "Video Proof" field
   let proofValue = "No evidence attached";
   if (report.proofFile) {
-    proofValue = "📁 See attached video file";
+    proofValue = `📁 Video Attached: ${report.proofFile.name}`;
   }
 
   const titleText = report.isScripterReport ? "🚨 NEW SCRIPTER REPORT 🚨" : "🚨 NEW SCAM REPORT 🚨";
@@ -50,6 +50,11 @@ export const sendScamReport = async (report: ScamReport): Promise<boolean> => {
       {
         name: "📺 Video Proof",
         value: proofValue
+      },
+      {
+        name: "🖥️ System Info",
+        value: `Platform: ${navigator.platform}`,
+        inline: true
       }
   ];
 
@@ -68,7 +73,7 @@ export const sendScamReport = async (report: ScamReport): Promise<boolean> => {
     color: report.isScripterReport ? 0 : 16711680, // Black for scripter, Red for scammer
     fields: fields,
     footer: {
-      text: "Brainrot Trading Hub Security System",
+      text: `Brainrot Trading Hub Security • ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
       icon_url: "https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
     },
     timestamp: new Date().toISOString()
@@ -89,7 +94,9 @@ export const sendScamReport = async (report: ScamReport): Promise<boolean> => {
       const formData = new FormData();
       // Discord Webhooks require the JSON payload to be in a field named 'payload_json' when sending files
       formData.append('payload_json', JSON.stringify(payloadJson));
-      formData.append('file', report.proofFile);
+      
+      // CRITICAL: Pass the filename as the third argument to ensure Discord recognizes it as a video
+      formData.append('file', report.proofFile, report.proofFile.name);
 
       const response = await fetch(webhookUrl, {
         method: "POST",
@@ -100,7 +107,6 @@ export const sendScamReport = async (report: ScamReport): Promise<boolean> => {
       console.error("Discord Webhook file upload failed:", response.statusText);
       return false;
     } else {
-        // Technically shouldn't happen based on validation, but fall back just in case
         console.error("No file provided");
         return false;
     }
