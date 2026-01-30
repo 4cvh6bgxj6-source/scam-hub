@@ -38,7 +38,7 @@ const SafetyTips: React.FC<SafetyTipsProps> = ({ language }) => {
             <p className="text-slate-400">{t.middlemanDesc}</p>
           </div>
           <a 
-            href="https://discord.gg/AqQQaPvD"
+            href="https://discord.gg/jY6cAMuNzm"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold rounded-xl transition-colors flex items-center gap-2 shadow-lg"

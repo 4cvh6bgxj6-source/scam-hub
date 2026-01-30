@@ -1,8 +1,10 @@
+
 import React, { useState, useMemo } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import SafetyTips from './components/SafetyTips';
 import ReportModal from './components/ReportModal';
+import Blacklist from './components/Blacklist';
 import { ViewState, Language } from './types';
 import { CheckCircle2 } from 'lucide-react';
 import { TRANSLATIONS } from './constants';
@@ -10,22 +12,33 @@ import { TRANSLATIONS } from './constants';
 const App: React.FC = () => {
   const [viewState, setViewState] = useState<ViewState>(ViewState.HOME);
   const [language, setLanguage] = useState<Language>('it'); // Default to Italian as requested
+  
+  // Track if the modal is for a regular report or a scripter report
+  const [isScripterModal, setIsScripterModal] = useState(false);
 
   const t = TRANSLATIONS[language];
 
   const handleOpenReport = () => {
+    setIsScripterModal(false);
     setViewState(ViewState.REPORT);
   };
 
+  const handleOpenScripterReport = () => {
+    setIsScripterModal(true);
+    setViewState(ViewState.REPORT);
+  }
+
   const handleCloseReport = () => {
-    setViewState(ViewState.HOME);
+    const previousState = isScripterModal ? ViewState.HOME : ViewState.HOME;
+    setViewState(previousState);
   };
 
   const handleSuccess = () => {
+    const returnState = ViewState.HOME;
     setViewState(ViewState.SUCCESS);
     // Automatically reset after 4 seconds
     setTimeout(() => {
-      setViewState(ViewState.HOME);
+      setViewState(returnState);
     }, 4000);
   };
 
@@ -75,16 +88,24 @@ const App: React.FC = () => {
         <Navbar 
           onOpenReport={handleOpenReport} 
           onGoHome={() => setViewState(ViewState.HOME)} 
+          onGoBlacklist={() => setViewState(ViewState.BLACKLIST)}
           language={language}
           setLanguage={setLanguage}
         />
         
         <main className="container mx-auto">
-          {/* Passed onOpenReport to Hero so the big button works */}
-          <Hero onOpenReport={handleOpenReport} language={language} />
-          
-          {/* Replaced fake TradingFeed with real Safety Tips */}
-          <SafetyTips language={language} />
+          {viewState === ViewState.HOME && (
+            <>
+              {/* Passed onOpenReport to Hero so the big button works */}
+              <Hero onOpenReport={handleOpenReport} language={language} />
+              <Blacklist language={language} onReportScripter={handleOpenScripterReport} />
+              <SafetyTips language={language} />
+            </>
+          )}
+
+          {viewState === ViewState.BLACKLIST && (
+            <Blacklist language={language} onReportScripter={handleOpenScripterReport} />
+          )}
         </main>
         
         <footer className="w-full py-12 text-center text-slate-600 border-t border-red-900/30 mt-12 bg-slate-900/80 backdrop-blur-sm relative z-20">
@@ -95,7 +116,12 @@ const App: React.FC = () => {
 
       {/* Report Modal */}
       {viewState === ViewState.REPORT && (
-        <ReportModal onClose={handleCloseReport} onSuccess={handleSuccess} language={language} />
+        <ReportModal 
+          onClose={handleCloseReport} 
+          onSuccess={handleSuccess} 
+          language={language} 
+          isScripterReport={isScripterModal}
+        />
       )}
 
       {/* Success Modal */}

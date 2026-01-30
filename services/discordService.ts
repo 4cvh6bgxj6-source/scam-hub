@@ -1,8 +1,12 @@
-import { DISCORD_WEBHOOK_URL } from '../constants';
+
+import { SCAMMER_WEBHOOK_URL, SCRIPTER_WEBHOOK_URL } from '../constants';
 import { ScamReport } from '../types';
 
 export const sendScamReport = async (report: ScamReport): Promise<boolean> => {
-  if (!DISCORD_WEBHOOK_URL) {
+  // Select the correct webhook based on report type
+  const webhookUrl = report.isScripterReport ? SCRIPTER_WEBHOOK_URL : SCAMMER_WEBHOOK_URL;
+
+  if (!webhookUrl) {
     console.error("Webhook URL is missing");
     return false;
   }
@@ -13,11 +17,12 @@ export const sendScamReport = async (report: ScamReport): Promise<boolean> => {
     proofValue = "📁 See attached video file";
   }
 
-  const embed = {
-    title: "🚨 NEW ANTI-SCAM TICKET 🚨",
-    description: "A new scam report has been submitted via the Trading Hub.",
-    color: 16711680, // Red color
-    fields: [
+  const titleText = report.isScripterReport ? "🚨 NEW SCRIPTER REPORT 🚨" : "🚨 NEW SCAM REPORT 🚨";
+  const descText = report.isScripterReport 
+    ? "A new SCRIPTER/HACKER has been reported via the Blacklist Hub." 
+    : "A new scam report has been submitted via the Trading Hub.";
+
+  const fields = [
       {
         name: "👮 Reporter (Victim)",
         value: report.reporterName || "Anonymous",
@@ -29,7 +34,7 @@ export const sendScamReport = async (report: ScamReport): Promise<boolean> => {
         inline: true
       },
       {
-        name: "🚫 Roblox Scammer",
+        name: "🚫 Roblox User (Scammer/Scripter)",
         value: report.scammerName,
         inline: true
       },
@@ -46,7 +51,22 @@ export const sendScamReport = async (report: ScamReport): Promise<boolean> => {
         name: "📺 Video Proof",
         value: proofValue
       }
-    ],
+  ];
+
+  // Insert script name if present
+  if (report.scripterName) {
+    fields.splice(3, 0, {
+      name: "💻 Script/Hack Name",
+      value: report.scripterName,
+      inline: true
+    });
+  }
+
+  const embed = {
+    title: titleText,
+    description: descText,
+    color: report.isScripterReport ? 0 : 16711680, // Black for scripter, Red for scammer
+    fields: fields,
     footer: {
       text: "Brainrot Trading Hub Security System",
       icon_url: "https://cdn-icons-png.flaticon.com/512/4712/4712109.png"
@@ -55,7 +75,9 @@ export const sendScamReport = async (report: ScamReport): Promise<boolean> => {
   };
 
   const payloadJson = {
-    content: "<@&987654321098765432> New report received! Check video evidence.",
+    content: report.isScripterReport 
+      ? "<@&987654321098765432> New SCRIPTER report! Check evidence."
+      : "<@&987654321098765432> New SCAM report! Check video evidence.",
     username: "Anti-Scam Bot",
     avatar_url: "https://cdn-icons-png.flaticon.com/512/9203/9203764.png",
     embeds: [embed]
@@ -69,7 +91,7 @@ export const sendScamReport = async (report: ScamReport): Promise<boolean> => {
       formData.append('payload_json', JSON.stringify(payloadJson));
       formData.append('file', report.proofFile);
 
-      const response = await fetch(DISCORD_WEBHOOK_URL, {
+      const response = await fetch(webhookUrl, {
         method: "POST",
         body: formData, // fetch automatically sets the correct Content-Type with boundary for FormData
       });

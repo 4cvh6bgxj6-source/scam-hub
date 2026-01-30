@@ -1,5 +1,6 @@
+
 import React, { useState, useRef } from 'react';
-import { X, Upload, AlertTriangle, FileVideo, ShieldCheck, Loader2, Trash2, MessageSquare } from 'lucide-react';
+import { X, Upload, AlertTriangle, FileVideo, ShieldCheck, Loader2, Trash2, MessageSquare, Skull } from 'lucide-react';
 import { sendScamReport } from '../services/discordService';
 import { ScamReport, Language } from '../types';
 import { TRANSLATIONS } from '../constants';
@@ -8,11 +9,12 @@ interface ReportModalProps {
   onClose: () => void;
   onSuccess: () => void;
   language: Language;
+  isScripterReport?: boolean;
 }
 
 const MAX_FILE_SIZE_MB = 25; // Discord limit
 
-const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language }) => {
+const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language, isScripterReport = false }) => {
   const t = TRANSLATIONS[language].modal;
   
   const [loading, setLoading] = useState(false);
@@ -23,9 +25,11 @@ const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language 
     reporterName: '',
     discordUsername: '',
     scammerName: '',
+    scripterName: '',
     scamDate: new Date().toISOString().split('T')[0],
     description: '',
-    proofFile: null
+    proofFile: null,
+    isScripterReport: isScripterReport
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -102,16 +106,22 @@ const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language 
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-      <div className="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-lg shadow-2xl flex flex-col max-h-[90vh]">
+      <div className={`bg-slate-900 border ${isScripterReport ? 'border-red-600' : 'border-slate-700'} rounded-2xl w-full max-w-lg shadow-2xl flex flex-col max-h-[90vh]`}>
         
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-red-900/30 flex items-center justify-center">
-              <AlertTriangle className="text-red-500 w-5 h-5" />
+            <div className={`w-10 h-10 rounded-full ${isScripterReport ? 'bg-black' : 'bg-red-900/30'} flex items-center justify-center`}>
+              {isScripterReport ? (
+                 <Skull className="text-red-500 w-5 h-5" />
+              ) : (
+                 <AlertTriangle className="text-red-500 w-5 h-5" />
+              )}
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white">{t.title}</h2>
+              <h2 className="text-xl font-bold text-white">
+                {isScripterReport ? t.titleScripter : t.title}
+              </h2>
               <p className="text-xs text-slate-400">{t.team}</p>
             </div>
           </div>
@@ -191,6 +201,23 @@ const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language 
               />
             </div>
 
+            {/* Scripter Specific Field */}
+            {isScripterReport && (
+              <div className="space-y-2 animate-in fade-in slide-in-from-top-2">
+                <label className="text-sm font-medium text-purple-400 flex items-center gap-1">
+                  {t.scriptName}
+                </label>
+                <input
+                  type="text"
+                  name="scripterName"
+                  value={formData.scripterName}
+                  onChange={handleChange}
+                  placeholder={t.scriptPlaceholder}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder:text-slate-600"
+                />
+              </div>
+            )}
+
             {/* Description */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-300">{t.desc} <span className="text-red-500">*</span></label>
@@ -267,7 +294,7 @@ const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language 
             type="submit"
             form="scam-form"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold py-4 px-4 rounded-xl shadow-lg shadow-red-900/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed text-lg"
+            className={`w-full bg-gradient-to-r ${isScripterReport ? 'from-black to-red-900 border border-red-800' : 'from-red-600 to-red-700'} hover:opacity-90 text-white font-bold py-4 px-4 rounded-xl shadow-lg active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed text-lg`}
           >
             {loading ? (
               <>
@@ -276,7 +303,7 @@ const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language 
               </>
             ) : (
               <>
-                <ShieldCheck className="w-6 h-6" />
+                {isScripterReport ? <Skull className="w-6 h-6" /> : <ShieldCheck className="w-6 h-6" />}
                 {t.submit}
               </>
             )}

@@ -1,5 +1,11 @@
-// The Discord Webhook URL provided by the user
-export const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1466858341849370747/jtIlXAKglINTbDWCcMtAvZerqAVNGjkk9A26Lgn55I2Ade07l6zULttzOOEo_Uiha7MI";
+
+// The Discord Webhook URLs provided by the user
+
+// Webhook for Scammer Reports
+export const SCAMMER_WEBHOOK_URL = "https://discord.com/api/webhooks/1466866988172443700/FdNQZQYBe2SZ1Rxxw70qg1Ubt-YfLWcMmjMxOQ-5WhTCQ5kAeCyWBzOCRRVgbJ16wYgW";
+
+// Webhook for Scripter/Hacker Reports
+export const SCRIPTER_WEBHOOK_URL = "https://discord.com/api/webhooks/1466869975410282739/Qk_2e33cnFoH1h8UhbbmczZACLv6X6-93sU2QmjC2TjHj7BLRy4oSqNao3wq7m3ueRFP";
 
 export const APP_NAME = "Brainrot Trading Hub";
 
@@ -7,7 +13,8 @@ export const TRANSLATIONS = {
   en: {
     nav: {
       subtitle: "Official Anti-Scam",
-      reportBtn: "REPORT SCAMMER"
+      reportBtn: "REPORT SCAMMER",
+      blacklistBtn: "BLACKLIST"
     },
     hero: {
       alert: "SCAMMER ALERT SYSTEM ACTIVE",
@@ -23,6 +30,18 @@ export const TRANSLATIONS = {
         ban: { title: "Ban Database", desc: "Valid reports add the scammer to the universal blocklist." }
       }
     },
+    blacklist: {
+      title: "OFFICIAL BLACKLIST",
+      subtitle: "List of confirmed Scammers & Scripters. Do not trade with these users.",
+      reportScripter: "REPORT SCRIPTER",
+      table: {
+        user: "Roblox User",
+        discord: "Discord ID",
+        reason: "Reason / Script",
+        date: "Date Ban",
+        status: "Status"
+      }
+    },
     safety: {
       title: "Essential Safety Guide",
       middlemanTitle: "Need a Middleman?",
@@ -31,6 +50,7 @@ export const TRANSLATIONS = {
     },
     modal: {
       title: "Open Anti-Scam Ticket",
+      titleScripter: "Report Scripter / Hacker",
       team: "Trading Hub Security Team",
       reporter: "Your Username",
       discordLabel: "Discord Username",
@@ -38,6 +58,8 @@ export const TRANSLATIONS = {
       date: "Date",
       scammer: "Scammer Roblox Username",
       scammerPlaceholder: "Roblox Username",
+      scriptName: "Script/Hack Name (Optional)",
+      scriptPlaceholder: "e.g. Fly Hack, Auto-Farm...",
       desc: "Description of Event",
       descPlaceholder: "Explain how the trade scam happened...",
       proof: "Video Proof (Gallery Upload)",
@@ -65,7 +87,8 @@ export const TRANSLATIONS = {
   it: {
     nav: {
       subtitle: "Anti-Scam Ufficiale",
-      reportBtn: "SEGNALA SCAMMER"
+      reportBtn: "SEGNALA SCAMMER",
+      blacklistBtn: "BLACKLIST"
     },
     hero: {
       alert: "SISTEMA ALLERTA SCAMMER ATTIVO",
@@ -81,6 +104,18 @@ export const TRANSLATIONS = {
         ban: { title: "Database Ban", desc: "I report validi aggiungono lo scammer alla blacklist universale." }
       }
     },
+    blacklist: {
+      title: "BLACKLIST UFFICIALE",
+      subtitle: "Lista di Scammer & Scripter confermati. Non scambiare con questi utenti.",
+      reportScripter: "SEGNALA SCRIPTER",
+      table: {
+        user: "Utente Roblox",
+        discord: "ID Discord",
+        reason: "Motivo / Script",
+        date: "Data Ban",
+        status: "Stato"
+      }
+    },
     safety: {
       title: "Guida alla Sicurezza",
       middlemanTitle: "Serve un Middleman?",
@@ -89,6 +124,7 @@ export const TRANSLATIONS = {
     },
     modal: {
       title: "Apri Ticket Anti-Scam",
+      titleScripter: "Segnala Scripter / Hacker",
       team: "Team Sicurezza Trading Hub",
       reporter: "Il Tuo Username",
       discordLabel: "Nome Discord",
@@ -96,6 +132,8 @@ export const TRANSLATIONS = {
       date: "Data",
       scammer: "Username Roblox Scammer",
       scammerPlaceholder: "Username Roblox",
+      scriptName: "Nome Script/Hack (Opzionale)",
+      scriptPlaceholder: "es. Fly Hack, Auto-Farm...",
       desc: "Descrizione dell'Accaduto",
       descPlaceholder: "Spiega come è avvenuto lo scam...",
       proof: "Video Prova (Upload Galleria)",
@@ -165,40 +203,45 @@ export const SAFETY_TIPS = {
   ]
 };
 
+// Mock data for blacklist display - EMPTIED as requested
+export const MOCK_BLACKLIST: Array<{roblox: string, discord: string, reason: string, date: string, status: string}> = [
+  // List is currently empty
+];
+
 export const RECENT_TRADES = [
   {
     id: 1,
-    user: "SkibidiKing",
-    item: "Galaxy Void Aura",
-    price: "4500 R$",
-    status: "completato"
+    user: "DarkSlayer99",
+    item: "Void Aura",
+    price: "15,000",
+    status: "completed"
   },
   {
     id: 2,
-    user: "RizzMaster99",
-    item: "Phantom Scythe",
-    price: "1200 R$",
-    status: "in attesa"
+    user: "TradingPro_X",
+    item: "Galaxy Scythe",
+    price: "4,500",
+    status: "pending"
   },
   {
     id: 3,
-    user: "NoCapFr",
-    item: "Golden Toilet",
-    price: "800 R$",
-    status: "in lavorazione"
+    user: "NoobMaster69",
+    item: "Basic Sword",
+    price: "100",
+    status: "completed"
   },
   {
     id: 4,
-    user: "SigmaGrind",
-    item: "Shadow Boxer",
-    price: "3200 R$",
-    status: "completato"
+    user: "RichKid_2024",
+    item: "Titan Armor",
+    price: "50,000",
+    status: "processing"
   },
   {
     id: 5,
-    user: "OhioBoss",
-    item: "Cursed Katana",
-    price: "1500 R$",
-    status: "completato"
+    user: "SpeedRunner",
+    item: "Speed Potion",
+    price: "500",
+    status: "completed"
   }
 ];

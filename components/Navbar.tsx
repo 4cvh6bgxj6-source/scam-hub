@@ -1,16 +1,18 @@
+
 import React from 'react';
-import { ShieldAlert, BarChart3, Globe } from 'lucide-react';
+import { ShieldAlert, BarChart3, Globe, Skull } from 'lucide-react';
 import { Language } from '../types';
 import { TRANSLATIONS } from '../constants';
 
 interface NavbarProps {
   onOpenReport: () => void;
   onGoHome: () => void;
+  onGoBlacklist: () => void;
   language: Language;
   setLanguage: (lang: Language) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onOpenReport, onGoHome, language, setLanguage }) => {
+const Navbar: React.FC<NavbarProps> = ({ onOpenReport, onGoHome, onGoBlacklist, language, setLanguage }) => {
   const t = TRANSLATIONS[language].nav;
 
   const toggleLanguage = () => {
@@ -35,6 +37,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenReport, onGoHome, language, setLa
       </div>
 
       <div className="flex items-center gap-4 md:gap-6">
+        {/* Language Toggle */}
         <button 
           onClick={toggleLanguage}
           className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg transition-colors border border-slate-600 font-bold text-sm"
@@ -43,6 +46,16 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenReport, onGoHome, language, setLa
           <span>{language === 'en' ? 'EN' : 'IT'}</span>
         </button>
 
+        {/* Blacklist Button */}
+        <button 
+          onClick={onGoBlacklist}
+          className="hidden md:flex items-center gap-2 bg-black hover:bg-slate-900 text-slate-200 px-4 py-2 rounded-lg transition-colors border border-red-900/50 hover:border-red-600 font-bold text-sm uppercase"
+        >
+          <Skull className="w-4 h-4 text-red-500" />
+          <span>{t.blacklistBtn}</span>
+        </button>
+
+        {/* Report Button */}
         <button 
           onClick={onOpenReport}
           className="group relative overflow-hidden bg-red-600 hover:bg-red-500 text-white px-4 md:px-8 py-3 rounded-xl font-black uppercase tracking-wider transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(220,38,38,0.6)] animate-pulse hover:animate-none border border-red-400 flex items-center gap-2 text-sm md:text-base"
