@@ -14,7 +14,7 @@ export const TRANSLATIONS = {
     nav: {
       subtitle: "Official Anti-Scam",
       reportBtn: "REPORT SCAMMER",
-      blacklistBtn: "BLACKLIST"
+      blacklistBtn: "SCRIPTER LIST"
     },
     hero: {
       alert: "SCAMMER ALERT SYSTEM ACTIVE",
@@ -31,14 +31,14 @@ export const TRANSLATIONS = {
       }
     },
     blacklist: {
-      title: "OFFICIAL BLACKLIST",
-      subtitle: "List of confirmed Scammers & Scripters. Do not trade with these users.",
-      reportScripter: "REPORT SCRIPTER",
+      title: "REPORT SCRIPTER",
+      subtitle: "Live feed of reported and banned users. Watch out for these players.",
+      reportScripter: "REPORT NEW SCRIPTER",
       table: {
         user: "Roblox User",
         discord: "Discord ID",
         reason: "Reason / Script",
-        date: "Date Ban",
+        date: "Date",
         status: "Status"
       }
     },
@@ -80,7 +80,7 @@ export const TRANSLATIONS = {
       close: "Close"
     },
     footer: {
-      copy: "© 2024 Brainrot Trading Hub Security.",
+      copy: "© 2025 Brainrot Trading Hub Security.",
       disclaimer: "We are not affiliated with any game developers. This is a community safety tool."
     }
   },
@@ -88,7 +88,7 @@ export const TRANSLATIONS = {
     nav: {
       subtitle: "Anti-Scam Ufficiale",
       reportBtn: "SEGNALA SCAMMER",
-      blacklistBtn: "BLACKLIST"
+      blacklistBtn: "LISTA SCRIPTER"
     },
     hero: {
       alert: "SISTEMA ALLERTA SCAMMER ATTIVO",
@@ -105,14 +105,14 @@ export const TRANSLATIONS = {
       }
     },
     blacklist: {
-      title: "BLACKLIST UFFICIALE",
-      subtitle: "Lista di Scammer & Scripter confermati. Non scambiare con questi utenti.",
-      reportScripter: "SEGNALA SCRIPTER",
+      title: "SEGNALA SCRIPTER",
+      subtitle: "Lista scripter e hacker segnalati dalla community. Fai attenzione a questi utenti.",
+      reportScripter: "SEGNALA NUOVO SCRIPTER",
       table: {
         user: "Utente Roblox",
         discord: "ID Discord",
         reason: "Motivo / Script",
-        date: "Data Ban",
+        date: "Data",
         status: "Stato"
       }
     },
@@ -154,7 +154,7 @@ export const TRANSLATIONS = {
       close: "Chiudi"
     },
     footer: {
-      copy: "© 2024 Sicurezza Brainrot Trading Hub.",
+      copy: "© 2025 Sicurezza Brainrot Trading Hub.",
       disclaimer: "Non siamo affiliati con gli sviluppatori del gioco. Questo è uno strumento di sicurezza della community."
     }
   }
@@ -203,9 +203,15 @@ export const SAFETY_TIPS = {
   ]
 };
 
-// Mock data for blacklist display - EMPTIED as requested
+// Real-looking Mock Data
 export const MOCK_BLACKLIST: Array<{roblox: string, discord: string, reason: string, date: string, status: string}> = [
-  // List is currently empty
+  {
+    roblox: "heiphhk",
+    discord: "Hidden",
+    reason: "Aimbot / Wallhack",
+    date: "Oggi",
+    status: "Segnalato"
+  }
 ];
 
 export const RECENT_TRADES = [

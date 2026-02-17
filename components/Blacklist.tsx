@@ -12,6 +12,15 @@ interface BlacklistProps {
 const Blacklist: React.FC<BlacklistProps> = ({ language, onReportScripter }) => {
   const t = TRANSLATIONS[language].blacklist;
 
+  const getStatusStyle = (status: string) => {
+    const s = status.toLowerCase();
+    if (s === 'segnalato' || s === 'reported') {
+      return 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/50';
+    }
+    // Default to Banned style (Red)
+    return 'bg-red-950 text-red-500 border border-red-800';
+  };
+
   return (
     <div className="w-full py-12 md:py-16 px-4 md:px-6 max-w-6xl mx-auto">
       
@@ -63,7 +72,7 @@ const Blacklist: React.FC<BlacklistProps> = ({ language, onReportScripter }) => 
                     <td className="px-4 py-3 md:px-6 md:py-4 text-red-300 text-xs md:text-sm">{entry.reason}</td>
                     <td className="px-4 py-3 md:px-6 md:py-4 text-slate-500 text-xs md:text-sm">{entry.date}</td>
                     <td className="px-4 py-3 md:px-6 md:py-4 text-right">
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] md:text-xs font-medium bg-red-950 text-red-500 border border-red-800 whitespace-nowrap">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] md:text-xs font-medium whitespace-nowrap ${getStatusStyle(entry.status)}`}>
                         {entry.status}
                       </span>
                     </td>
@@ -72,7 +81,7 @@ const Blacklist: React.FC<BlacklistProps> = ({ language, onReportScripter }) => 
               ) : (
                 <tr>
                   <td colSpan={5} className="px-6 py-20 text-center text-slate-500 italic text-sm md:text-base">
-                    {language === 'it' ? 'Nessun utente bannato attualmente visibile.' : 'No active bans currently visible.'}
+                    {language === 'it' ? 'Nessun utente segnalato attualmente visibile.' : 'No active reports currently visible.'}
                   </td>
                 </tr>
               )}
