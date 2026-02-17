@@ -12,7 +12,7 @@ interface ReportModalProps {
   isScripterReport?: boolean;
 }
 
-const MAX_FILE_SIZE_MB = 25; // Discord limit
+const MAX_FILE_SIZE_MB = 100; // Increased to 100MB to allow ~5 min videos
 
 const ReportModal: React.FC<ReportModalProps> = ({ onClose, onSuccess, language, isScripterReport = false }) => {
   const t = TRANSLATIONS[language].modal;
